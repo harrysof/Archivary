@@ -1,0 +1,66 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            artifact: Archivary-windows
+          - os: macos-latest
+            artifact: Archivary-macos
+          - os: ubuntu-latest
+            artifact: Archivary-linux
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Install Linux Qt runtime libraries
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libegl1 libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 \
+            libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 \
+            libxcb-shape0 libxcb-xinerama0 libdbus-1-3
+
+      - name: Generate app icons
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: python packaging/make_icons.py
+
+      - name: Build with PyInstaller
+        run: python -m PyInstaller packaging/archivary.spec --noconfirm
+
+      - name: Package macOS bundle
+        if: runner.os == 'macOS'
+        run: ditto -c -k --keepParent dist/Archivary.app Archivary-macos.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: |
+            dist/Archivary.exe
+            dist/Archivary
+            Archivary-macos.zip
+          if-no-files-found: warn

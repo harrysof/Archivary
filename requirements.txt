@@ -1,0 +1,6 @@
+PySide6>=6.6
+internetarchive>=5.5
+keyring>=25.0
+cryptography>=42.0
+requests>=2.31
+openpyxl>=3.1

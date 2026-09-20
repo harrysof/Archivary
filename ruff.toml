@@ -1,0 +1,6 @@
+target-version = "py311"
+line-length = 100
+
+[lint]
+# F = pyflakes, E9 = syntax/runtime errors, I = import sorting.
+select = ["F", "E9", "I"]
