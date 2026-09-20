@@ -23,7 +23,7 @@ jobs:
             path: Archivary-macos.zip
           - os: ubuntu-latest
             artifact: Archivary-linux
-            path: dist/Archivary
+            path: Archivary-linux.tar.gz
     steps:
       - uses: actions/checkout@v4
 
@@ -58,6 +58,10 @@ jobs:
         if: runner.os == 'macOS'
         run: ditto -c -k --keepParent dist/Archivary.app Archivary-macos.zip
 
+      - name: Package Linux binary
+        if: runner.os == 'Linux'
+        run: tar -czf Archivary-linux.tar.gz -C dist Archivary
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -83,5 +87,5 @@ jobs:
           generate_release_notes: true
           files: |
             artifacts/Archivary-windows/Archivary.exe
-            artifacts/Archivary-linux/Archivary
+            artifacts/Archivary-linux/Archivary-linux.tar.gz
             artifacts/Archivary-macos/Archivary-macos.zip

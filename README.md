@@ -177,7 +177,8 @@ PyInstaller cannot cross-compile, so build once per target OS:
 ```
 
 The result is written to `dist/`: `Archivary.exe` on Windows, a bare `Archivary`
-binary on Linux, and `Archivary.app` on macOS. The
+binary on Linux (the workflow wraps it as `Archivary-linux.tar.gz`), and
+`Archivary.app` on macOS. The
 [`.github/workflows/build.yml`](.github/workflows/build.yml) workflow builds all
 three on their native runners and uploads them as artifacts.
 
