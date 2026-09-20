@@ -1,6 +1,14 @@
-# Archivary
+<p align="center">
+  <img src="assets/logo.png" width="96" height="96" alt="Archivary logo">
+</p>
 
-**A cross-platform desktop app for the Internet Archive.**
+<h1 align="center">Archivary</h1>
+
+<p align="center"><strong>A cross-platform desktop app for the Internet Archive.</strong></p>
+
+<p align="center">
+  <img src="assets/screenshot.png" alt="Archivary upload screen" width="900">
+</p>
 
 > **[Read the full User Manual](MANUAL.md)** — a step-by-step guide to every feature.
 

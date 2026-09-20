@@ -28,6 +28,7 @@ from archivary.ui.widgets import logo_pixmap  # noqa: E402
 ASSETS = ROOT / "assets"
 ICO_FILE = ASSETS / "Archivary.ico"
 ICNS_FILE = ASSETS / "Archivary.icns"
+LOGO_PNG = ASSETS / "logo.png"
 
 BG = "#1e1f22"
 FG = "#e6e6e6"
@@ -91,7 +92,8 @@ def main() -> int:
     ASSETS.mkdir(parents=True, exist_ok=True)
     write_ico(ICO_FILE, (16, 24, 32, 48, 64, 128, 256))
     write_icns(ICNS_FILE)
-    print(f"wrote {ICO_FILE.name} and {ICNS_FILE.name} to {ASSETS}")
+    badge(256).save(str(LOGO_PNG), "PNG")
+    print(f"wrote {ICO_FILE.name}, {ICNS_FILE.name} and {LOGO_PNG.name} to {ASSETS}")
     return 0
 
 
